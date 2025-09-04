@@ -47,11 +47,17 @@ void Field::draw(){
 
 void Field::drawCell(bool isAlive, int row, int col){
 
-    // bad code, needs refactor
+    Rectangle rec = {
+        row*cellSize,
+        col*cellSize,
+        cellSize,
+        cellSize
+    };
+
     if (isAlive)
-        DrawRectangle(int(row*cellSize), int(col*cellSize), int(cellSize), int(cellSize), GREEN);
+        DrawRectangleRec(rec, GREEN);
     else
-        DrawRectangle(int(row*cellSize), int(col*cellSize), int(cellSize), int(cellSize), BLACK);
+        DrawRectangleRec(rec, BLACK);
 
     return;
 }

@@ -3,12 +3,12 @@
 
 int main(void){
 
-	int rows = 200;
-	int cols = 200;
-	int cellSizePixels = 4; 
+	int rows = 800;
+	int cols = 800;
+	float cellSizePixels = 1; 
 
-	const int windowWidth = rows * cellSizePixels;
-	const int windowHeight = cols * cellSizePixels;
+	const float windowWidth = rows * cellSizePixels;
+	const float windowHeight = cols * cellSizePixels;
 
 	int FPS = 12;
 
