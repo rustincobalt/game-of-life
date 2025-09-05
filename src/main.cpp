@@ -1,24 +1,24 @@
 #include "..\include\raylib.h"
-#include "..\include\Field.h"
+#include "..\include\Simulation.hpp"
 
 int main(void){
 
-	int rows = 800;
-	int cols = 800;
-	float cellSizePixels = 1; 
+	int rows = 500;
+	int cols = 600;
+	float cellSizePixels = 2; 
 
-	const float windowWidth = rows * cellSizePixels;
-	const float windowHeight = cols * cellSizePixels;
+	const float windowWidth = cols * cellSizePixels;
+	const float windowHeight =  rows * cellSizePixels;
 
 	int FPS = 12;
 
 	InitWindow(windowWidth, windowHeight, "Game of Life");
 	SetTargetFPS(FPS); // doesn't gurantee the fps, just sets the max fps
 
-	Color bgColor = {100, 175, 150, 255};
+	Color bgColor = BLACK;
 
-	Field field = Field(rows, cols, cellSizePixels);
-	field.initRandom();
+	Simulation simul = Simulation(rows, cols, cellSizePixels);
+	simul.InitRandom();
 
 	// Simulation loop
 	while(!WindowShouldClose()){
@@ -27,11 +27,11 @@ int main(void){
 		// 1. Event Handling
 
 		// 2. Update State
-
+		simul.Update();
 		// 3. Drawing
 		BeginDrawing(); // creates blank canvas
 		ClearBackground(bgColor);
-		field.draw();
+		simul.DrawAliveCells();
 		EndDrawing(); // ends the canvas drawing
 		
 	}
