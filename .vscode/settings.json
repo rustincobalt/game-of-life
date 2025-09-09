@@ -5,6 +5,9 @@
         "unordered_set": "cpp",
         "utility": "cpp",
         "xhash": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "chrono": "cpp",
+        "type_traits": "cpp",
+        "iostream": "cpp"
     }
 }
