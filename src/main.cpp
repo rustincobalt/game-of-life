@@ -2,7 +2,7 @@
 #include "..\include\Simulation.hpp"
 
 
-#define TIMEDEBUG
+// #define TIMEDEBUG
 #ifdef TIMEDEBUG
 #include <chrono>
 #include <thread>
@@ -13,23 +13,27 @@
 
 int main(void){
 
-	int rows = 400;
-	int cols = 800;
-	float cellSizePixels = 2; 
+	// int rows = 4*800;
+	// int cols = 4*1280;
+	// float cellSizePixels = 0.25; 
 
-	const float windowWidth = cols * cellSizePixels;
-	const float windowHeight =  rows * cellSizePixels;
+	int y = 500;
+	int x = 800;
+	float pixelSize = 2;
 
-	int FPS = 30;
+	
+	const float windowHeight =  y * pixelSize;
+	const float windowWidth = x * pixelSize;
+
+	int FPS = 120;
 
 	InitWindow(windowWidth, windowHeight, "Game of Life");
 	SetTargetFPS(FPS); // doesn't gurantee the fps, just sets the max fps
 
 	Color bgColor = BLACK;
 
-	Simulation simul = Simulation(rows, cols, cellSizePixels);
-	Simulation::aliveCelltexture = LoadTexture("../textures/Orange.bmp");
-	Simulation::deadCelltexture = LoadTexture("../textures/Black.bmp");
+	Simulation simul = Simulation(y, x, pixelSize);
+
 	simul.InitRandom();
 
 	// Simulation loop

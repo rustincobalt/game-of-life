@@ -8,6 +8,10 @@
         "iterator": "cpp",
         "chrono": "cpp",
         "type_traits": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "format": "cpp",
+        "list": "cpp",
+        "xstring": "cpp",
+        "array": "cpp"
     }
 }

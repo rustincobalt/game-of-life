@@ -9,6 +9,7 @@
                 "-g",
                 "${file}",
                 "Simulation.cpp",
+                "Cell.cpp",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I",
