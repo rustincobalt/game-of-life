@@ -10,16 +10,23 @@
                 "${file}",
                 "Simulation.cpp",
                 "Cell.cpp",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-I",
-                "../include/",
-                "-L",
-                "../lib/",
+                "MidiSoundMapper.cpp",
+
+                "../lib/rtmidi/RtMidi.cpp",
+
+                "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                
+                "-I", "../include/",
+                "-I", "../lib/raylib/",
+                "-I", "../lib/rtmidi/",
+                
+                "-L", "../lib/raylib/",
+                
                 "-lraylib",
                 "-lopengl32",
                 "-lgdi32",
-                "-lwinmm"
+                "-lwinmm",
+                "-D__WINDOWS_MM__"
             ],
             "options": {
                 "cwd": "${fileDirname}"

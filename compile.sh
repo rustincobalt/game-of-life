@@ -1,17 +1,19 @@
 #!/bin/bash
 
 # Path to your raylib source or compiled library
-RAYLIB_HEAD="include/"
-RAYLIB_LIB="lib/"
+PROJECT_HEADERS="include/"
+RTMIDI_HEADER="lib/rtmidi/"
+RAYLIB_HEADER="lib/raylib/"
+RAYLIB_LIB="lib/raylib/"
 
 # Source file
-SRC="src/main.cpp"
+CPP="src/main.cpp src/Simulation.cpp src/Cell.cpp src/MidiSoundMapper.cpp lib/rtmidi/RtMidi.cpp"
 
 # Output executable
 OUT="game of life.exe"
 
 # Compile with g++
-g++ "$SRC" -o "$OUT" -I "$RAYLIB_HEAD" -L "$RAYLIB_LIB" -lraylib -lopengl32 -lgdi32 -lwinmm
+g++ $CPP -o "$OUT" -I "$PROJECT_HEADERS" -I "$RAYLIB_HEADER" -I "$RTMIDI_HEADER" -L "$RAYLIB_LIB" -lraylib -lopengl32 -lgdi32 -lwinmm -D__WINDOWS_MM__
 
 # Check if compilation succeeded
 if [ $? -eq 0 ]; then

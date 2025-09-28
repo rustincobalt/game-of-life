@@ -1,8 +1,10 @@
-#include "..\include\raylib.h"
+#include "..\lib\raylib\raylib.h"
 #include "..\include\Simulation.hpp"
-
+#include "..\include\MidiSoundMapper.hpp"
 
 // #define TIMEDEBUG
+// #define GoL
+
 #ifdef TIMEDEBUG
 #include <chrono>
 #include <thread>
@@ -16,7 +18,7 @@ int main(void){
 	// int rows = 4*800;
 	// int cols = 4*1280;
 	// float cellSizePixels = 0.25; 
-
+	#ifdef GoL
 	int y = 500;
 	int x = 800;
 	float pixelSize = 2;
@@ -70,5 +72,12 @@ int main(void){
 	#ifdef TIMEDEBUG
 	std::cout << "Average time of a loop in seconds: " << (timeSpent/iteration)/1000 << "\n"; 
 	#endif
+	return 0;
+	#endif
+
+  	MidiSoundMapper mapper;
+
+	mapper.ChoosePortInteractively();
+
 	return 0;
 }

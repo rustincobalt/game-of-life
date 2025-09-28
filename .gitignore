@@ -41,5 +41,8 @@
 *.dwo
 
 # Custom ignore rules
-raylib.h 
+raylib.h
+RtMidi.cpp
+RtMidi.h
+tmp/
 
