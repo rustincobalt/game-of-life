@@ -4,10 +4,20 @@
 
 #include <iostream>
 #include <cstdlib>
+// #include <signal.h> // For...?
+
+#include <atomic>
+#include <csignal>
+
+#include <vector>
+
 #include <chrono>
 #include <thread>
-using std::cout;
 
+#include <bitset>
+
+using std::cout;
+using std::vector;
 /*
 Class requirements:
 1. Initialization 
@@ -28,6 +38,7 @@ class MidiSoundMapper : ISoundMapper {
     MidiSoundMapper();
 
     void ChoosePortInteractively();
+    void ListenToMidi();
 
     void MapSoundToCell(){};
     ~MidiSoundMapper();

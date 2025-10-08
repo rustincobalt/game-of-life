@@ -78,6 +78,6 @@ int main(void){
   	MidiSoundMapper mapper;
 
 	mapper.ChoosePortInteractively();
-
+	mapper.ListenToMidi();
 	return 0;
 }
