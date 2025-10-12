@@ -1,16 +1,48 @@
 #include "../include/Cell.hpp"
 
+
+uint8_t Cell::crossoverBits(uint8_t a, uint8_t b){
+    // Choose splicing place
+    uint8_t splittingPoint = rand()%8;
+    
+    uint8_t rightMask, leftMask;
+    rightMask = (1u << splittingPoint) - 1;
+    leftMask = ~rightMask;
+
+    // Left
+    uint8_t bLeftPart = b&leftMask;
+    uint8_t aLeftPart = a&leftMask;
+    
+    // Right
+    uint8_t aRightPart = a&rightMask;
+    uint8_t bRightPart = b&rightMask;
+
+    uint8_t c;
+
+   
+    if (rand()%2)
+        c = bLeftPart + aRightPart;
+    else 
+        c = aLeftPart + bRightPart;
+
+    if(rand()%1000 == 0)
+        c = c^(1u << rand()%7+1); // mutate by inverting bit    
+
+    return c;
+}
+
 Cell::Cell(int y, int x, CellType t, array<uint8_t, 4> rgba): 
     x(x), y(y), type(t)
 {
-    for (int i = 0; i < 4; i++)
-        colorRGBA[i] = rgba[i];
-    counter = 0;
+    this->colorRGBA = rgba;
+    this->colorMix = colorRGBA;
+    this->counter = 0;
 }
 
 
 void Cell::SetColor(array<uint8_t, 4> rgba){
     this->colorRGBA = rgba;
+    this->colorMix = rgba;
 }
 
 void Cell::SetType(CellType t){
@@ -30,12 +62,7 @@ int Cell::GetCounter() const{
 }
 
 array<uint8_t, 4> Cell::GetColor() const{
-    return {
-        colorRGBA[0],
-        colorRGBA[1],
-        colorRGBA[2],
-        colorRGBA[3]
-    };
+    return colorRGBA;
 }
 
 bool Cell::IsAlive(){
@@ -82,7 +109,8 @@ void Cell::EvaluateSelf(){
         this->colorRGBA = {0,0,0,255};
         break;
     case PRODUCER:
-        this->colorRGBA = {0,255,0,255};
+        // this->colorRGBA = {0,255,0,255};
+        this->colorRGBA = this->colorMix; // Only Producers can be of different colors
         break;
     case REDUCER:
         this->colorRGBA = {255,0,0,255};
@@ -91,12 +119,22 @@ void Cell::EvaluateSelf(){
         break;    
     }
     
+    this->colorMix = this->colorRGBA;
     counter = 0;
     return;
 }
 
-void Cell::ReceiveImpulse(int impulse){
+void Cell::ReceiveImpulse(int impulse, const array<uint8_t, 4>& receivedColor){
     counter += impulse;
+
+    if((this->colorMix[0] + this->colorMix[1] + this->colorMix[2]) < 1)
+        colorMix = receivedColor;
+    else   
+        for (size_t i = 0; i < 3; i++) // Doesn't evaluate A   
+            this->colorMix[i] = 
+                crossoverBits(this->colorMix[i], receivedColor[i]);
+        
+    return;
 }
 
 vector<Cell*> Cell::SendImpulse(vector<vector<Cell>>& world, int sizeY, int sizeX){
@@ -128,7 +166,7 @@ vector<Cell*> Cell::SendImpulse(vector<vector<Cell>>& world, int sizeY, int size
         if(tmpCell->GetCounter() == 0 && tmpCell->IsAlive() == false)
             affectedCells.push_back(tmpCell);
             
-        tmpCell->ReceiveImpulse(impulseStrength);
+        tmpCell->ReceiveImpulse(impulseStrength, this->colorRGBA);
     }
 
     for (int i = 0; i < 2; i++){
@@ -138,7 +176,7 @@ vector<Cell*> Cell::SendImpulse(vector<vector<Cell>>& world, int sizeY, int size
         if(tmpCell->GetCounter() == 0 && tmpCell->IsAlive() == false)
             affectedCells.push_back(tmpCell);
             
-        tmpCell->ReceiveImpulse(impulseStrength);
+        tmpCell->ReceiveImpulse(impulseStrength, this->colorRGBA);
     }
 
 
@@ -149,7 +187,7 @@ vector<Cell*> Cell::SendImpulse(vector<vector<Cell>>& world, int sizeY, int size
         if(tmpCell->GetCounter() == 0 && tmpCell->IsAlive() == false)
             affectedCells.push_back(tmpCell);
             
-        tmpCell->ReceiveImpulse(impulseStrength);
+        tmpCell->ReceiveImpulse(impulseStrength, this->colorRGBA);
     }
 
 
@@ -160,7 +198,7 @@ vector<Cell*> Cell::SendImpulse(vector<vector<Cell>>& world, int sizeY, int size
         if(tmpCell->GetCounter() == 0 && tmpCell->IsAlive() == false)
             affectedCells.push_back(tmpCell);
             
-        tmpCell->ReceiveImpulse(impulseStrength);
+        tmpCell->ReceiveImpulse(impulseStrength, this->colorRGBA);
     }
 
 

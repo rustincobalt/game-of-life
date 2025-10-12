@@ -26,8 +26,11 @@ class Cell{
     int counter;
     CellType type;
 
-    array<uint8_t, 4> colorRGBA; // size 4
-  
+    array<uint8_t, 4> colorRGBA;
+    array<uint8_t, 4> colorMix;
+
+
+    static uint8_t crossoverBits(uint8_t, uint8_t);
 
     public:
     Cell(int y, int x, CellType t, array<uint8_t, 4> rgba);
@@ -46,6 +49,6 @@ class Cell{
     // Functionality
     bool IsAlive();
     vector<Cell*> SendImpulse(vector<vector<Cell>>& world, int sizeY, int sizeX);
-    void ReceiveImpulse(int);
+    void ReceiveImpulse(int, const array<uint8_t, 4>&);
     void EvaluateSelf();
 };

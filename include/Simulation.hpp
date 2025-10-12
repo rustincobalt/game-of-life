@@ -32,7 +32,8 @@ class Simulation{
     Simulation();
     Simulation(int sizeY, int sizeX, float pixelSize);
 
-    void InitRandom();
+    int GetNumberAliveCells();
+    void InitRandom(int);
     void DrawAliveCells();
     void Update();
 };

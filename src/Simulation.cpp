@@ -1,5 +1,6 @@
 #include "../include/Simulation.hpp"
 #include "../include/Cell.hpp"
+#include "Simulation.hpp"
 
 Simulation::Simulation(int sizeY,int sizeX, float pixelSize): 
     sizeY(sizeY),
@@ -21,8 +22,10 @@ Simulation::Simulation(int sizeY,int sizeX, float pixelSize):
         
     };
 
-void Simulation::InitRandom(){
-    int nCellsToInitiate = 200'000;
+void Simulation::InitRandom(int nCellsToInitiate){
+    
+    if (nCellsToInitiate > this->sizeX*this->sizeY)
+        throw "ERROR: Too many cells to initiate.";
 
     int yRandom, xRandom;
     CellType type;
@@ -35,17 +38,36 @@ void Simulation::InitRandom(){
         if (world[yRandom][xRandom].IsAlive() == false)
         {   
             // type = ((yRandom*sizeX + xRandom) > half) ? PRODUCER : REDUCER;
-            type = ((std::pow(yRandom - sizeY/2, 2) + std::pow(xRandom-sizeX/2, 2)) < std::pow((sizeX+sizeY)/8, 2)) ? PRODUCER : REDUCER;
-            // type = PRODUCER;
-            (type == PRODUCER) ? rgba = {0,255,0,255} : rgba = {255,0,0,255};
+            // type = ((std::pow(yRandom - sizeY/2, 2) + std::pow(xRandom-sizeX/2, 2)) < std::pow((sizeX+sizeY)/8, 2)) ? PRODUCER : REDUCER;
+            type = PRODUCER;
+            // (type == PRODUCER) ? rgba = {0,255,0,255} : rgba = {255,0,0,255};
+            rgba = {
+                static_cast<unsigned char>(std::rand() % 255 + 1),
+                static_cast<unsigned char>(std::rand() % 255 + 1),
+                static_cast<unsigned char>(std::rand() % 255 + 1),
+                // static_cast<unsigned char>(std::rand() % 155 + 101)
+                255
+            };
+
+            // rgba = {
+            //     static_cast<unsigned char>(180),
+            //     static_cast<unsigned char>((rand()%2) ? 25 : 255),
+            //     static_cast<unsigned char>(100),
+            //     255
+            // };
             world[yRandom][xRandom].SetType(type);
             world[yRandom][xRandom].SetColor(rgba);
             generation.push_back(&world[yRandom][xRandom]);
             nCellsToInitiate--;
         }
     }
-
+    
     return;
+}
+
+int Simulation::GetNumberAliveCells()
+{
+    return this->generation.size();
 }
 
 void Simulation::DrawAliveCells(){

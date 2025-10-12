@@ -2,8 +2,8 @@
 #include "..\include\Simulation.hpp"
 #include "..\include\MidiSoundMapper.hpp"
 
-// #define TIMEDEBUG
-// #define GoL
+#define TIMEDEBUG
+#define GoL
 
 #ifdef TIMEDEBUG
 #include <chrono>
@@ -36,7 +36,7 @@ int main(void){
 
 	Simulation simul = Simulation(y, x, pixelSize);
 
-	simul.InitRandom();
+	simul.InitRandom(200'000);
 
 	// Simulation loop
 	#ifdef TIMEDEBUG
@@ -45,8 +45,8 @@ int main(void){
 	std::chrono::steady_clock::time_point begin;
 	std::chrono::steady_clock::time_point end;
 	#endif
-
-
+	std::string messageText;
+	
 	while(!WindowShouldClose()){
 		#ifdef TIMEDEBUG
 		begin = std::chrono::steady_clock::now();
@@ -55,10 +55,16 @@ int main(void){
 
 		// 2. Update State
 		simul.Update();
+		messageText = 
+			"Alive cells: " + 
+			std::to_string(simul.GetNumberAliveCells());
+		
+		// std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		// 3. Drawing
 		BeginDrawing(); // creates blank canvas
 		ClearBackground(bgColor);
 		simul.DrawAliveCells();
+		DrawText(messageText.c_str(),0, 0, 10, {255, 255, 255, 128});
 		EndDrawing(); // ends the canvas drawing
 		#ifdef TIMEDEBUG
 		end = std::chrono::steady_clock::now();
@@ -75,9 +81,10 @@ int main(void){
 	return 0;
 	#endif
 
-  	MidiSoundMapper mapper;
+  	// MidiSoundMapper mapper;
 
-	mapper.ChoosePortInteractively();
-	mapper.ListenToMidi();
+	// mapper.ChoosePortInteractively();
+	// mapper.ListenToMidi();
+	
 	return 0;
 }
