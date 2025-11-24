@@ -11,8 +11,8 @@
                 "App.cpp",
                 "Simulation.cpp",
                 "Cell.cpp",
-                "MidiSoundMapper.cpp",
 
+                "MidiReader.cpp",
                 "../lib/rtmidi/RtMidi.cpp",
 
                 "-o", "${fileDirname}\\${fileBasenameNoExtension}.exe",

@@ -7,7 +7,7 @@ RAYLIB_HEADER="lib/raylib/"
 RAYLIB_LIB="lib/raylib/"
 
 # Source file
-CPP="src/main.cpp src/App.cpp src/Simulation.cpp src/Cell.cpp src/MidiSoundMapper.cpp lib/rtmidi/RtMidi.cpp"
+CPP="src/main.cpp src/App.cpp src/Simulation.cpp src/Cell.cpp src/MidiReader.cpp lib/rtmidi/RtMidi.cpp"
 
 # Output executable
 OUT="game of life.exe"
